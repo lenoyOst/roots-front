@@ -3,7 +3,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import MobileDatePicker from "@mui/lab/MobileDatePicker";
 import MobileTimePicker from "@mui/lab/MobileTimePicker";
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, Chip } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -25,7 +25,7 @@ type Props = {
 
 export const ResponsiveDatePickers = (props: Props) => {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [classTypes, setClassTypes] = React.useState<ClassType[]>([]);
+  const [classTypes, setClassTypes] = React.useState < ClassType[] > ([]);
 
   React.useEffect(() => {
     const fetch = async () => {
@@ -35,7 +35,6 @@ export const ResponsiveDatePickers = (props: Props) => {
 
     fetch();
   }, []);
-
   const onSearch = () => {
     setIsLoading((currentState: boolean) => !currentState);
     const startDate = new Date(props.chosenDate.valueOf());
@@ -55,12 +54,13 @@ export const ResponsiveDatePickers = (props: Props) => {
   return (
     <Box style={{ margin: "3%" }}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Stack spacing={3}>
+        <Stack spacing={3} alignItems="center">
           <Typography variant="h6" component="div">
             יום האירוע
           </Typography>
           <MobileDatePicker
             label="יום אירוע"
+            minDate={new Date()}
             value={props.chosenDate}
             onChange={(newDate) => {
               props.setChosenDate(newDate!);
@@ -84,39 +84,33 @@ export const ResponsiveDatePickers = (props: Props) => {
           </Typography>
           <MobileTimePicker
             label="שעת סיום"
+            minTime={props.startTime}
             value={props.endTime}
-            onChange={(newTime) => {
-              props.setEndTime(newTime!);
-            }}
+            onChange={(newTime) => props.setEndTime(newTime!)}
             renderInput={(params) => <TextField {...params} />}
           />
           <Typography variant="h6" component="div">
             סוג כיתה
           </Typography>
-          <FormControl>
-            <InputLabel id="classTypeLabel">סוג כיתה</InputLabel>
-            <Select
-              value={props.chosenClassTypeId}
-              labelId={"classTypeLabel"}
-              label={"סוג כיתה"}
-              onChange={(event) =>
-                props.setChosenClassTypeId(
-                  parseInt(event.target.value as string)
-                )
-              }
-            >
-              {classTypes.map((classType) => (
-                <MenuItem key={classType.id} value={classType.id}>
-                  {classType.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Stack
+            direction={"row"}
+            spacing={3}
+          >
+            {classTypes.map((classType) => (
+              <Chip
+                id={classType.id.toString()}
+                label={classType.name}
+                color={"primary"}
+                variant={"outlined"}
+                onClick={() => props.setChosenClassTypeId(classType.id)}
+              />
+            ))}
+          </Stack>
           <LoadingButton
             onClick={onSearch}
             loading={isLoading}
             sx={{
-              width: "100%",
+              width: "60%",
             }}
             variant="contained"
             fullWidth
@@ -124,7 +118,7 @@ export const ResponsiveDatePickers = (props: Props) => {
             חפש
           </LoadingButton>
         </Stack>
-      </LocalizationProvider>
-    </Box>
+      </LocalizationProvider >
+    </Box >
   );
 };
