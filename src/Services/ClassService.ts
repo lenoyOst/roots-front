@@ -9,11 +9,12 @@ export class ClassService {
   public static getAvailableClasses = async (
     startDate: Date,
     endDate: Date,
-    classTypeId: number
+    classTypeId: number,
+    classFunctionalitiesIds: Array<number>
   ) => {
     return (
       await axiosInstance.get<Class[]>(
-        `/class/available/${startDate}/${endDate}/${classTypeId}`
+        `/class/available/${startDate}/${endDate}/${classTypeId}/${classFunctionalitiesIds}`
       )
     ).data;
   };

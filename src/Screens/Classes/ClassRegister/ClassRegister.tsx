@@ -8,19 +8,19 @@ import Results from "../Classes";
 import { ResponsiveDatePickers } from "../SearchClass/SearchClass";
 
 export default function Classes() {
-  const [foundClasses, setFoundClasses] = useState<Class[]>([]);
-  const [chosenDate, setChosenDate] = useState<Date>(new Date());
-  const [startTime, setStartTime] = useState<Date>(new Date());
-  const [endTime, setEndTime] = useState<Date>(new Date());
-  const [chosenClassTypeId, setChosenClassTypeId] = useState<number>(0);
-
+  const [foundClasses, setFoundClasses] = useState < Class[] > ([]);
+  const [chosenDate, setChosenDate] = useState < Date > (new Date());
+  const [startTime, setStartTime] = useState < Date > (new Date());
+  const [endTime, setEndTime] = useState < Date > (new Date());
+  const [chosenClassTypeId, setChosenClassTypeId] = useState < number > (0);
+  const [chosenFunctionalitiesIds, setchosenFunctionalitiesIds] = useState < Array < number > > ([]);
   const handleSearchClasses = async (startTime: Date, endTime: Date) => {
     const newFoundClasses = await ClassService.getAvailableClasses(
       startTime,
       endTime,
-      chosenClassTypeId
+      chosenClassTypeId,
+      chosenFunctionalitiesIds
     );
-
     setFoundClasses(newFoundClasses);
   };
 
@@ -54,12 +54,14 @@ export default function Classes() {
             startTime={startTime}
             chosenDate={chosenDate}
             chosenClassTypeId={chosenClassTypeId}
+            chosenFunctionalitiesIds={chosenFunctionalitiesIds}
             setChosenClassTypeId={setChosenClassTypeId}
+            setchosenFunctionalitiesIds={setchosenFunctionalitiesIds}
             setEndTime={setEndTime}
             setChosenDate={setChosenDate}
             setStartTime={setStartTime}
             handleSearchClasses={handleSearchClasses}
-          />
+          ></ResponsiveDatePickers>
         ) : (
           <Results
             handleAssignClass={handleClassAssign}

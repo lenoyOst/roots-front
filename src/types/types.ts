@@ -68,7 +68,10 @@ export interface ClassType {
   id: number;
   name: string;
 }
-
+export interface ClassFunctionality {
+  id: number;
+  name: string;
+}
 export interface Recipient {
   id: number;
   name: string;
