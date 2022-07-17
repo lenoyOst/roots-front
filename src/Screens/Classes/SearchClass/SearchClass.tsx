@@ -91,6 +91,7 @@ export const ResponsiveDatePickers = (props: Props) => {
           <MobileTimePicker
             label="שעת התחלה"
             value={props.startTime}
+            minTime={props.chosenDate.getDate() == new Date().getDate() && props.chosenDate.getMonth() == new Date().getMonth() ? new Date() : undefined}
             onChange={(newTime) => {
               newTime && props.setStartTime(newTime);
             }}

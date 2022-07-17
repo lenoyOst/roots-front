@@ -13,8 +13,8 @@ export class ClassService {
     classFunctionalitiesIds: Array<number>
   ) => {
     return (
-      await axiosInstance.get<Class[]>(
-        `/class/available/${startDate}/${endDate}/${classTypeId}/${classFunctionalitiesIds}`
+      await axiosInstance.post<Class[]>(
+        `/class/available/${startDate}/${endDate}/${classTypeId}`, { classFunctionalities: classFunctionalitiesIds }
       )
     ).data;
   };
